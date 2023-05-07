@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
 import Tr from "@/i18n/translation"
 
 const { t, locale } = useI18n()
 
 const supportedLocales = Tr.supportedLocales
 
-async function switchLanguage(event:any): Promise<void> { // <--- 1
-    const newLocale = event.target.value // <--- 2
-    await Tr.switchLanguage(newLocale) // <--- 3
+const router = useRouter()
+
+async function switchLanguage(event: any): Promise<void> {
+    const newLocale = event.target.value
+    await Tr.switchLanguage(newLocale)
+
+    try {
+        await router.replace({ params: { locale: newLocale } })
+    } catch (e) {
+        console.log(e)
+        router.push("/")
+    }
 }
 
 </script>
