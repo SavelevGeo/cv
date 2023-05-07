@@ -75,9 +75,9 @@ const Trans = {
     },
 
     async loadLocaleMessages(locale: string) {
-        if(!i18n.global.availableLocales.includes(locale)) {  // <--- 3
-          const messages = await import(`@/i18n/locales/${locale}.json`)  // <--- 4
-          i18n.global.setLocaleMessage(locale, messages.default)  // <--- 5
+        if(!i18n.global.availableLocales.includes(locale)) { 
+          const messages = await import(`@/i18n/locales/${locale}.json`) 
+          i18n.global.setLocaleMessage(locale, messages.default) 
         }
         
         return nextTick()
