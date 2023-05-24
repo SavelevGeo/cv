@@ -7,9 +7,9 @@ function addNestedValues(obj: localeJson, key: string, value: string) {
         const [parentKey, childKey] = key.split('.')
 
         if (!Object.keys(obj).includes(parentKey))
-            obj[parentKey] = {}
+            obj[parentKey] = {} as localeJson
 
-        obj[parentKey][childKey] = value
+        (obj[parentKey] as localeJson)[childKey] = value
 
     } else obj[key] = value
 }
@@ -28,15 +28,13 @@ function tsvToJson(tsv: string): localeJson {
     return { en, ru }
 }
 
-async function localesFromGSheet(): Promise<localeJson> {
+function localesFromGSheet(): Promise<localeJson> {
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvdaFvqr6gxdixvsKGtL6B7YbKxTeEuV3h2P-9xelyw8Q0uorxO_Shqos8IDT-FOZ616LmRnhtCEju/pub?gid=0&single=true&output=tsv'
 
-    const response = await fetch(sheetUrl)
-    const text = await response.text()
-    
-    return tsvToJson(text)
+    return fetch(sheetUrl)
+        .then(response => response.text())
+        .then(text => tsvToJson(text))
+
 }
 
-const locales = await localesFromGSheet()
-
-export default locales
+export default localesFromGSheet()

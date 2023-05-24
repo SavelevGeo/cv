@@ -3,12 +3,9 @@ import { RouterLink, RouterView } from 'vue-router'
 import LanguageSwitcher from './components/LanguageSwitcher.vue'
 import Tr from '@/i18n/translation'
 
-import locales from './locales';
-
 </script>
 
 <template>
-    <p>{{ locales }}</p>
     <header>
         <div class="wrapper">
             <nav>

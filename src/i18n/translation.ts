@@ -1,5 +1,4 @@
 import i18n from "@/i18n";
-import { nextTick } from "vue"
 
 const Trans = {
     get defaultLocale() {
@@ -26,7 +25,7 @@ const Trans = {
 
     getUserLocale(): any {
         const locale = window.navigator.language ||
-            window.navigator.userLanguage ||
+            window.navigator.language ||
             Trans.defaultLocale
         return {
             locale: locale,
@@ -68,19 +67,10 @@ const Trans = {
     },
 
     async switchLanguage(newLocale: string) {
-        await Trans.loadLocaleMessages(newLocale)
         Trans.currentLocale = newLocale
-        document.querySelector("html").setAttribute("lang", newLocale)
+        const html = document.querySelector("html")
+        if (html) html.setAttribute("lang", newLocale)
         localStorage.setItem("user-locale", newLocale)
-    },
-
-    async loadLocaleMessages(locale: string) {
-        if(!i18n.global.availableLocales.includes(locale)) { 
-          const messages = await import(`@/i18n/locales/${locale}.json`) 
-          i18n.global.setLocaleMessage(locale, messages.default) 
-        }
-        
-        return nextTick()
     },
 
     async routeMiddleware(to: { params: { locale: any; }; }, _from: any, next: (arg0: undefined) => any): Promise<any> {
@@ -89,7 +79,7 @@ const Trans = {
             return next(Trans.guessDefaultLocale())
         }
         await Trans.switchLanguage(paramLocale)
-        return next()
+        return next(undefined)
     },
 }
 
