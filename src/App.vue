@@ -9,9 +9,17 @@ import Tr from '@/i18n/translation'
     <header>
         <div class="wrapper">
             <nav>
-                <RouterLink :to="Tr.i18nRoute({ name: 'home' })">Home
+                <RouterLink :to="Tr.i18nRoute({ name: 'home' })">
+                    {{ $t('nav.home') }}
                 </RouterLink>
-                <RouterLink :to="Tr.i18nRoute({ name: 'about' })">About
+                <RouterLink :to="Tr.i18nRoute({ name: 'home' })">
+                    {{ $t('nav.cv') }}
+                </RouterLink>
+                <RouterLink :to="Tr.i18nRoute({ name: 'home' })">
+                    {{ $t('nav.projects') }}
+                </RouterLink>
+                <RouterLink :to="Tr.i18nRoute({ name: 'about' })">
+                    {{ $t('nav.about') }}
                 </RouterLink>
             </nav>
             <LanguageSwitcher />
