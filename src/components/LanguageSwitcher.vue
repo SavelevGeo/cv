@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
 import Tr from "@/i18n/translation"
 
-const { t, locale } = useI18n()
+const { locale } = useI18n()
 
 const supportedLocales = Tr.supportedLocales
 
@@ -24,10 +24,11 @@ async function switchLanguage(event: any): Promise<void> {
 </script>
 
 <template>
-    <select @change="switchLanguage">
-        <option v-for="sLocale in supportedLocales" :key="`locale-${sLocale}`"
-            :value="sLocale" :selected="locale === sLocale">
-            {{ t(`locale.${sLocale}`) }}
-        </option>
-    </select>
+    <fieldset>
+        <label v-for="sLocale in supportedLocales" :key="`locale-${sLocale}`">
+            <input @change="switchLanguage" type="radio" :key="`locale-${sLocale}`"
+                :value="sLocale" :checked="locale === sLocale" name="locale">
+            {{ sLocale }}
+        </label>
+    </fieldset>
 </template>
