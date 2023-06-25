@@ -5,20 +5,27 @@ import Tr from "@/i18n/translation"
 
 const { locale } = useI18n()
 
-const supportedLocales = Tr.supportedLocales
+const supportedLocales: Array<string> = Tr.supportedLocales
 
 const router = useRouter()
 
-async function switchLanguage(event: any): Promise<void> {
-    const newLocale = event.target.value
-    await Tr.switchLanguage(newLocale)
-
+async function setNewLocale(newLocale: string): Promise<void> {
     try {
         await router.replace({ params: { locale: newLocale } })
     } catch (e) {
         console.log(e)
         router.push("/")
     }
+}
+
+function switchLanguage(event: Event): void {
+    if (event.target === null) return undefined
+    const target = event.target as HTMLInputElement
+
+    const newLocale: string = target.value
+    Tr.switchLanguage(newLocale).then(
+        () => setNewLocale(newLocale)
+    )
 }
 
 </script>
